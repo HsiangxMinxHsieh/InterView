@@ -51,6 +51,9 @@ freeline.py
 freeline/
 freeline_project_description.json
 
+# git 因為要用於複製給其他專案當Sample，所以不上傳git設定
+.git
+
 # fastlane
 fastlane/report.xml
 fastlane/Preview.html
