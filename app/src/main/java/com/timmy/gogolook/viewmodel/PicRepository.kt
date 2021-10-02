@@ -16,11 +16,9 @@ class PicRepository @Inject constructor() {
     @Inject
     lateinit var retrofit: Retrofit
 
-
     private val apiService by lazy {
         retrofit.create(ApiService::class.java)
     }
-
 
     private val result by lazy { MutableLiveData<MutableList<Hit>>() }
 
@@ -29,8 +27,9 @@ class PicRepository @Inject constructor() {
     fun getDataFromAPI() {
         CoroutineScope(Dispatchers.IO).launch {
             val responseBody = apiService.getData()
-                //處理畫面更新
-                result.postValue(responseBody.hits)
+            //處理畫面更新
+            Timber.e("初始取得更新!")
+            result.postValue(responseBody.hits)
 //            }
         }
     }
@@ -38,8 +37,9 @@ class PicRepository @Inject constructor() {
     fun searchFromAPI(search: String?) {
         CoroutineScope(Dispatchers.IO).launch {
             val responseBody = apiService.search(search)
-                //處理畫面更新
-                result.postValue(responseBody.hits)
+            //處理畫面更新
+            Timber.e("搜尋完成更新!")
+            result.postValue(responseBody.hits)
         }
     }
 

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">GogolookInterviewExam</string>
+
+    <!-- 感覺遙控行數比較好玩 XD-->
+    <string name="remote_span_count_key">GridLayoutSpanCount</string>
+
+    <!-- 題目要求是要設定List或Grid，OK fine。-->
+    <string name="remote_list_or_grid_key">IsListLayoutOrGridLayout</string>
+
 </resources>

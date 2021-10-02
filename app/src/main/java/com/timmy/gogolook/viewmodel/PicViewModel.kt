@@ -8,6 +8,7 @@ import androidx.databinding.ObservableField
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import timber.log.Timber
 
 class PicViewModel @ViewModelInject constructor(private val picRepository: PicRepository) : ViewModel() {
 
@@ -36,7 +37,7 @@ class PicViewModel @ViewModelInject constructor(private val picRepository: PicRe
 
         // 開始執行搜尋動作
         val searchString = observeContent.get()
-        if(searchString.isNullOrBlank()){
+        if (searchString.isNullOrBlank()) {
             liveShowToast.postValue("Empty input, use the default value to display.")
         }
         picRepository.searchFromAPI(searchString)
@@ -47,12 +48,12 @@ class PicViewModel @ViewModelInject constructor(private val picRepository: PicRe
         observeIsLoading.set(true)
     }
 
-    /**Enter可以直接搜尋*/
+    /**Enter可以直接搜尋 為了要兼容模擬器時電腦鍵盤可以用，花費不少功夫在嘗試...Orz*/
     val editorActionListener: TextView.OnEditorActionListener = TextView.OnEditorActionListener { v, actionId, event ->
-        if (actionId == KeyEvent.KEYCODE_UNKNOWN || actionId == KeyEvent.KEYCODE_CALL) {
+        if ((actionId == KeyEvent.KEYCODE_UNKNOWN || actionId == KeyEvent.KEYCODE_CALL) && event?.action != KeyEvent.ACTION_DOWN) {
             search()
-            true
-        } else false
+        }
+        true
     }
 
     companion object {

@@ -1,4 +1,4 @@
-package com.timmy.gogolook.base
+package com.timmy.gogolook.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
