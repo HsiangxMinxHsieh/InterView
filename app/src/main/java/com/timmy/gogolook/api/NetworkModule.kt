@@ -1,4 +1,4 @@
-package com.timmy.hiltmvvm.api
+package com.timmy.gogolook.api
 
 import dagger.Module
 import dagger.Provides
@@ -29,7 +29,7 @@ class NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("https://newsapi.org/")
+            .baseUrl("https://pixabay.com/")
             .client(okHttpClient)
             .build()
     }

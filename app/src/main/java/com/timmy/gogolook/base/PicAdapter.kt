@@ -1,4 +1,4 @@
-package com.timmy.hiltmvvm.base
+package com.timmy.gogolook.base
 
 import android.graphics.Bitmap
 import android.view.LayoutInflater
@@ -12,14 +12,17 @@ import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.timmy.hiltmvvm.R
-import com.timmy.hiltmvvm.database.SampleData
-import com.timmy.hiltmvvm.databinding.AdapterSampleBinding
+import com.timmy.gogolook.R
+import com.timmy.gogolook.api.model.Hit
+import com.timmy.gogolook.databinding.AdapterPicBinding
+import timber.log.Timber
 
-/**DataBinding的資料更新方式，請直接在layout/adapter_sample內指定data以更新畫面。*/
+//import com.timmy.gogolook.util.GlideApp
 
-class SampleAdapter: RecyclerView.Adapter<SampleAdapter.ViewHolder>() {
-    var list: MutableList<SampleData> = ArrayList()
+/**DataBinding的資料更新方式，直接在layout/adapter_pic內指定data以更新畫面。*/
+
+class PicAdapter: RecyclerView.Adapter<PicAdapter.ViewHolder>() {
+    var list: MutableList<Hit> = ArrayList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
     }
@@ -35,36 +38,26 @@ class SampleAdapter: RecyclerView.Adapter<SampleAdapter.ViewHolder>() {
         return list.count()
     }
 
-    class ViewHolder private constructor(private val binding: AdapterSampleBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder private constructor(private val binding: AdapterPicBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: SampleData) {
+        fun bind(item: Hit) {
             binding.data = item
         }
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = AdapterSampleBinding.inflate(layoutInflater, parent, false)
+                val binding = AdapterPicBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
             }
         }
     }
 }
 
-/**Glide圓角圖片設定*/
-private val options by lazy {
-    RequestOptions()
-        .transform(MultiTransformation<Bitmap>(CenterCrop(), RoundedCorners(10)))
-        .priority(Priority.NORMAL)
-        .error(R.drawable.ic_error_notice)
-}
-
 @BindingAdapter("app:imageUrl")
 fun bindImage(imageView: ImageView, url: String) {
-
     Glide.with(imageView.context)
         .load(url)
         .placeholder(R.drawable.ic_error_notice)
-        .apply(options)
         .into(imageView)
 }

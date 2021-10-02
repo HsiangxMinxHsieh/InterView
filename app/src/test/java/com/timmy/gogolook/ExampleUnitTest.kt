@@ -1,4 +1,4 @@
-package com.timmy.hiltmvvm
+package com.timmy.gogolook
 
 import org.junit.Test
 
