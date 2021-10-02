@@ -108,8 +108,7 @@ class PicActivity : AppCompatActivity() {
                         setGridLayoutSpan(3, false)
 
 //                    // 遙控設定count的部分，題目說要為List或Grid，而不是設定列數，因此註解不使用。
-//                    val spanCount = getLong(activity.getString(R.string.remote_span_count_key))
-//                    setGridLayoutSpan(spanCount.toInt(), false)
+//                    setGridLayoutSpan( getLong(activity.getString(R.string.remote_span_count_key)).toInt(), false)
 
 
                 }
