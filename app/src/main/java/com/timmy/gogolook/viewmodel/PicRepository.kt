@@ -5,10 +5,8 @@ import com.timmy.gogolook.api.ApiService
 import com.timmy.gogolook.api.model.Hit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
-import timber.log.Timber
 import javax.inject.Inject
 
 class PicRepository @Inject constructor() {
@@ -28,7 +26,6 @@ class PicRepository @Inject constructor() {
         CoroutineScope(Dispatchers.IO).launch {
             val responseBody = apiService.getData()
             //處理畫面更新
-            Timber.e("初始取得更新!")
             result.postValue(responseBody.hits)
 //            }
         }
@@ -38,7 +35,6 @@ class PicRepository @Inject constructor() {
         CoroutineScope(Dispatchers.IO).launch {
             val responseBody = apiService.search(search)
             //處理畫面更新
-            Timber.e("搜尋完成更新!")
             result.postValue(responseBody.hits)
         }
     }

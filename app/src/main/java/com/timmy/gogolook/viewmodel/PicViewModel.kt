@@ -59,7 +59,7 @@ class PicViewModel @ViewModelInject constructor(private val picRepository: PicRe
     companion object {
 
         @JvmStatic
-        @BindingAdapter("app:onEditorActionListener")
+        @BindingAdapter("onEditorActionListener")
         fun bindOnEditorActionListener(editText: EditText, editorActionListener: TextView.OnEditorActionListener) {
             editText.setOnEditorActionListener(editorActionListener)
         }

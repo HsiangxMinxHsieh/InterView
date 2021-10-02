@@ -19,7 +19,7 @@ import com.timmy.gogolook.viewmodel.PicViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import timber.log.Timber
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 
 
 @AndroidEntryPoint
@@ -59,7 +59,6 @@ class PicActivity : AppCompatActivity() {
     private fun initObserve() {
         // 資料觀察者
         viewModel.getLiveDataByAPI().observe(activity, {
-            Timber.e("收到要更新資料了，即將於Activity更新資料！")
             if (it.isEmpty()) {
                 viewModel.haveContent.set(false)
             } else {
@@ -89,6 +88,13 @@ class PicActivity : AppCompatActivity() {
     /** 挑戰1的部分：遙控控制DefaultLayout */
     private fun initFirebaseRemote() {
         FirebaseRemoteConfig.getInstance().apply {
+
+            setConfigSettingsAsync(
+                FirebaseRemoteConfigSettings.Builder()
+                    .setMinimumFetchIntervalInSeconds(1) //這個值並不是說在App內經過每這段時間就會更新，而是取到這個值後，下次取值前要經過這麼多的時間(秒)才會更新(實測結果)
+                    .build()
+            )
+
             setDefaultsAsync(HashMap<String, Any>().apply {
                 this[activity.getString(R.string.remote_span_count_key)] = 1
                 this[activity.getString(R.string.remote_list_or_grid_key)] = true
@@ -96,19 +102,16 @@ class PicActivity : AppCompatActivity() {
 
             this.fetchAndActivate().addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
-                    //設定count的部分，題目說要為List或Grid，而不是設定列數，因此註解不使用。
-//                    val spanCount = getLong(activity.getString(R.string.remote_span_count_key))
-//                    setGridLayoutSpan(spanCount.toInt())
-
-                    //產生時原本就為1，因此為true的時候不動作(如果本來是1又設定為1會造成畫面閃爍)
+////                   // 產生時原本就為1，因此為true的時候不動作(如果本來是1又設定為1會造成畫面閃爍)
                     val isListLayout = getBoolean(activity.getString(R.string.remote_list_or_grid_key))
                     if (!isListLayout)
                         setGridLayoutSpan(3, false)
 
-                    Toast.makeText(
-                        activity, "Fetch and activate succeeded",
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    // 遙控設定count的部分，題目說要為List或Grid，而不是設定列數，因此註解不使用。
+//                    val spanCount = getLong(activity.getString(R.string.remote_span_count_key))
+//                    setGridLayoutSpan(spanCount.toInt(), false)
+
+
                 }
             }
         }
