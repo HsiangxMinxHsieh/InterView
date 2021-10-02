@@ -26,20 +26,21 @@ class PicRepository @Inject constructor() {
 
     fun getLiveDataByAPI() = result
 
-    fun init() { // 初始化，用於偵測資料庫是否有變化，或直接回傳值
-    }
-
     fun getDataFromAPI() {
         CoroutineScope(Dispatchers.IO).launch {
             val responseBody = apiService.getData()
-//            Timber.i("getDataFromAPI結果是=>${responseBody} ")
-            MainScope().launch {
                 //處理畫面更新
-
                 result.postValue(responseBody.hits)
-            }
+//            }
         }
     }
 
+    fun searchFromAPI(search: String?) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val responseBody = apiService.search(search)
+                //處理畫面更新
+                result.postValue(responseBody.hits)
+        }
+    }
 
 }
