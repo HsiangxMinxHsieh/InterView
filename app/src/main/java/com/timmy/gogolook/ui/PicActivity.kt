@@ -41,7 +41,6 @@ class PicActivity : AppCompatActivity() {
 
     }
 
-
     private fun initViewModel() {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_pic)
         mBinding.lifecycleOwner = activity
@@ -79,14 +78,16 @@ class PicActivity : AppCompatActivity() {
         })
 
         // 來自FirebaseRemote的DefaultLayout設定
-        var nowSetting = true // 這個變數用來讓它不會重複設定(不會無窮迴圈)
-        viewModel.getIsListLayout().observe(activity, {
-            if (it != nowSetting) {
-                Timber.e("取得結果是=>${it}")
-                setGridLayoutSpan(if (it) 1 else gridRows)
-                nowSetting = it
-            }
+        viewModel.getLiveLayoutType().observe(activity, {
+            Timber.e("即將更新畫面，取得的布林是=>${it}")
+            setGridLayoutSpan(if (it) 1 else gridRows)
         })
+
+////        // 來自FirebaseRemote的SpanCount設定 // 題目沒說要做，註解。
+//        viewModel.getLiveLGridLayoutCount().observe(activity, {
+//            Timber.e("即將更新畫面，取得的數字是=>${it}")
+//            setGridLayoutSpan(it)
+//        })
 
     }
 
@@ -97,18 +98,18 @@ class PicActivity : AppCompatActivity() {
 
     /** 本機切換List與Grid*/
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_pic, menu)
+        menuInflater.inflate(R.menu.menu_layout_type, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.list -> {
-                viewModel.getIsListLayout().postValue(true)
+                viewModel.setLayoutType(true) // 呼叫viewModel更新畫面
                 true
             }
             R.id.grid -> {
-                viewModel.getIsListLayout().postValue(false)
+                viewModel.setLayoutType(false) // 呼叫viewModel更新畫面
                 true
             }
             else -> {

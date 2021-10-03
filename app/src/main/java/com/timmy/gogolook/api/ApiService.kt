@@ -7,7 +7,7 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET(".")
-    suspend fun getData(): PicModel
+    suspend fun getDefalutData(): PicModel
 
     @GET(".")
     suspend fun search( @Query("q") search: String? = "" ): PicModel

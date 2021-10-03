@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 android {
     compileSdkVersion 30
@@ -62,6 +63,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'com.google.firebase:firebase-config:21.0.1'
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.1'
+    implementation 'com.google.firebase:firebase-analytics:19.0.1'
     testImplementation 'junit:junit:4.+'
     testImplementation 'net.lachlanmckee:timber-junit-rule:1.0.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
