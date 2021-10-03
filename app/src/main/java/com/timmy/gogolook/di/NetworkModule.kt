@@ -1,4 +1,4 @@
-package com.timmy.gogolook.api
+package com.timmy.gogolook.di
 
 import dagger.Module
 import dagger.Provides

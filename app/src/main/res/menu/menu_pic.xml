@@ -11,6 +11,6 @@
         android:id="@+id/grid"
         android:orderInCategory="100"
         android:title="Grid"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
 </menu>

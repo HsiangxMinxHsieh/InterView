@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- START xml_defaults -->
+<defaultsMap>
+    <entry>
+        <key>GridLayoutSpanCount</key>
+        <value>2</value>
+    </entry>
+    <entry>
+        <key>@constantKeyIsList</key>
+        <value>true</value>
+    </entry>
+</defaultsMap>

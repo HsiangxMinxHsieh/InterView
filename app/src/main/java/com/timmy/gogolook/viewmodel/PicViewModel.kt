@@ -12,27 +12,32 @@ import java.util.*
 
 class PicViewModel @ViewModelInject constructor(private val picRepository: PicRepository) : ViewModel() {
 
+    /**是否正在載入中，用於顯示加載框 true=>Loading中，false=>載入完畢 */
     val observeIsLoading: ObservableField<Boolean> by lazy { ObservableField<Boolean>() }
 
+    /**是否有搜尋到內容，用於顯示搜索結果是否有內容 true=>有內容，不顯示，false=>沒有內容，要顯示 */
     val haveContent: ObservableField<Boolean> by lazy { ObservableField<Boolean>() }
 
+    /**輸入框文字，用於雙向綁定EditText物件 */
     val observeContent: ObservableField<String> by lazy { ObservableField<String>() }
 
+    /**搜尋紀錄列表，用於儲存與更新搜尋紀錄 */
     val liveSearchRecord: MutableLiveData<TreeSet<String>> by lazy { MutableLiveData<TreeSet<String>>() }
 
+    /**關閉軟鍵盤通知，用於通知Activity關閉軟鍵盤*/
     val liveHideKeyBoard: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
 
+    /**訊息通知，用於通知Activity顯示Toast訊息 */
     val liveShowToast: MutableLiveData<String> by lazy { MutableLiveData<String>() }
 
     init {
-        getData()
-        liveSearchRecord.postValue(TreeSet())
+        getData() // 初始化時取得資料
+        liveSearchRecord.postValue(TreeSet()) //初始化塞值(不然裡面是null)
     }
-
 
     private fun getData() {
         showGetAPIScreen()
-        picRepository.getDataFromAPI()
+        picRepository.getDefaultDataFromAPI()
     }
 
     fun getLiveDataByAPI() = picRepository.getLiveDataByAPI()
@@ -59,6 +64,8 @@ class PicViewModel @ViewModelInject constructor(private val picRepository: PicRe
     private fun showGetAPIScreen() {
         observeIsLoading.set(true)
     }
+
+    fun getIsListLayout() = picRepository.getIsListLayout()
 
     /**Enter可以直接搜尋 為了要兼容模擬器時電腦鍵盤可以用，花費不少功夫在嘗試...Orz*/
     val editorActionListener: TextView.OnEditorActionListener = TextView.OnEditorActionListener { _, actionId, event ->
