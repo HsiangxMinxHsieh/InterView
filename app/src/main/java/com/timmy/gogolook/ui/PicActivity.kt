@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -34,8 +36,6 @@ class PicActivity : AppCompatActivity() {
 
         initViewModel()
 
-        initData()
-
         initObserve()
 
         // 設定小鍵盤的預設談起型態(進入畫面時應該隱藏)
@@ -49,11 +49,6 @@ class PicActivity : AppCompatActivity() {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_pic)
         mBinding.lifecycleOwner = activity
         mBinding.vm = viewModel
-    }
-
-    private fun initData() {
-        viewModel.getData()
-
     }
 
     private fun initObserve() {
@@ -75,7 +70,16 @@ class PicActivity : AppCompatActivity() {
 
         // Toast 觀察者
         viewModel.liveShowToast.observe(activity, {
-            Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+            if (it.isNotBlank()) {
+                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+                viewModel.liveShowToast.value = "" // 顯示後清空。
+            }
+        })
+
+        // 歷史紀錄更新 觀察者
+        viewModel.liveSearchRecord.observe(activity, {
+            Timber.e("收到的record為：$it")
+            mBinding.edtSearch.setAdapter((ArrayAdapter(activity, android.R.layout.select_dialog_item, it.toList())))
         })
 
     }

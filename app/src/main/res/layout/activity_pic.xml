@@ -17,18 +17,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/edt_search"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edt_search_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:lines="1"
-            android:maxLength="99"
-            android:text="@={vm.observeContent}"
+            android:hint="Search Images..."
+            app:endIconMode="dropdown_menu"
+            app:endIconTintMode="src_atop"
             app:layout_constraintEnd_toStartOf="@+id/iv_search"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:onEditorActionListener="@{vm.editorActionListener}" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <AutoCompleteTextView
+                android:id="@+id/edt_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:completionThreshold="0"
+                android:inputType="text"
+                android:lines="1"
+                android:maxLength="99"
+                android:text="@={vm.observeContent}"
+                app:onEditorActionListener="@{vm.editorActionListener}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
             android:id="@+id/iv_search"
@@ -36,9 +48,10 @@
             android:layout_height="0dp"
             android:onClick="@{() -> vm.search()}"
             android:src="@drawable/ic_baseline_search_24"
+            app:layout_constraintBottom_toBottomOf="@+id/edt_search_layout"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/edt_search_layout"
             app:layout_constraintWidth_percent="0.1" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -52,7 +65,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edt_search"
+            app:layout_constraintTop_toBottomOf="@+id/edt_search_layout"
             tools:listitem="@layout/adapter_pic" />
 
         <TextView
@@ -66,7 +79,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edt_search" />
+            app:layout_constraintTop_toBottomOf="@+id/edt_search_layout" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
@@ -76,7 +89,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edt_search">
+            app:layout_constraintTop_toBottomOf="@+id/edt_search_layout">
 
             <ProgressBar
                 android:layout_width="0dp"
