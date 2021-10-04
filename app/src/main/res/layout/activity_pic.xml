@@ -35,10 +35,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:completionThreshold="0"
+                android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:lines="1"
                 android:maxLength="99"
-                android:text="@={vm.observeContent}"
+                android:text="@={vm.xmlContent}"
                 app:onEditorActionListener="@{vm.editorActionListener}" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -48,12 +49,12 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:onClick="@{() -> vm.search()}"
+            android:padding="10dp"
             android:src="@drawable/ic_baseline_search_24"
             app:layout_constraintBottom_toBottomOf="@+id/edt_search_layout"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/edt_search_layout"
-            app:layout_constraintWidth_percent="0.1" />
+            app:layout_constraintTop_toTopOf="@+id/edt_search_layout" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_news"
@@ -75,7 +76,7 @@
             android:text="No Result"
             android:textColor="@color/black"
             android:textSize="30sp"
-            android:visibility="@{vm.observeHaveResult ? View.GONE : View.VISIBLE}"
+            android:visibility="@{vm.xmlHaveResult ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +87,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/white"
-            android:visibility="@{vm.observeIsLoading ? View.VISIBLE : View.GONE}"
+            android:visibility="@{vm.xmlIsLoading ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

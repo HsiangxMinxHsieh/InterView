@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-/**跟API溝通的Repository*/
+/** 跟API溝通的Repository */
 class APIRepository @Inject constructor() {
 
     @Inject

@@ -10,7 +10,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.timmy.gogolook.api.model.Hit
 import com.timmy.gogolook.databinding.AdapterPicBinding
 
-/**DataBinding的資料更新方式，直接在layout/adapter_pic內指定data以更新畫面。*/
+/** DataBinding的資料更新方式，直接在layout/adapter_pic內指定data以更新畫面。 */
 
 class PicAdapter : RecyclerView.Adapter<PicAdapter.ViewHolder>() {
     var list: MutableList<Hit> = ArrayList()

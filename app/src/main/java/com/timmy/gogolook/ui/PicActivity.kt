@@ -34,14 +34,14 @@ class PicActivity : AppCompatActivity() {
 
         initViewModel()
 
-        initLiveDataObserve()
+        initOLiveDataObserve()
 
         // 設定小鍵盤的預設談起型態(進入畫面時應該隱藏)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
     }
 
-    /**經過思索，還是覺得在onStop的時候判斷要不要移除焦點比較好。*/
+    /** 經過思索，還是覺得在onStop的時候判斷要不要移除焦點比較好。 */
     override fun onStop() {
         super.onStop()
         if (viewModel.getEditContent().isBlank())
@@ -54,7 +54,7 @@ class PicActivity : AppCompatActivity() {
         mBinding.vm = viewModel
     }
 
-    private fun initLiveDataObserve() {
+    private fun initOLiveDataObserve() {
 
         // 搜尋歷史紀錄更新 觀察者
         viewModel.liveSearchRecord.observe(activity, {
@@ -68,7 +68,10 @@ class PicActivity : AppCompatActivity() {
 
         // Toast 觀察者
         viewModel.liveShowToast.observe(activity, {
-            Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+            if (it.isNotBlank()) {
+                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+                viewModel.clearToastContent() //避免轉動螢幕畫面以後會再Toast一次。
+            }
         })
 
         // EditText Focus 移除觀察者
@@ -106,7 +109,7 @@ class PicActivity : AppCompatActivity() {
         inputMethodManager.hideSoftInputFromWindow(mBinding.root.windowToken, 0)
     }
 
-    /** 本機切換List與Grid*/
+    /**  本機切換List與Grid */
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_layout_type, menu)
         return true

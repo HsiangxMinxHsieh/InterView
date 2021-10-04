@@ -6,7 +6,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.timmy.gogolook.di.*
 import javax.inject.Inject
 
-/**跟Firebase RemoteConfig Repository(挑戰1)*/
+/** 跟Firebase RemoteConfig Repository(挑戰1) */
 class RemoteRepository @Inject constructor() {
 
     @Inject
