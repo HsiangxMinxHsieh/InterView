@@ -75,7 +75,7 @@
             android:text="No Result"
             android:textColor="@color/black"
             android:textSize="30sp"
-            android:visibility="@{vm.haveContent ? View.GONE : View.VISIBLE}"
+            android:visibility="@{vm.observeHaveResult ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"

@@ -14,11 +14,11 @@ class RemoteRepository @Inject constructor() {
 
     private val liveIsListLayout = MutableLiveData<Boolean>()
 
-    fun getLiveLLayoutType() = liveIsListLayout // 因為viewModel要改這個值，所以不能回傳LiveData
+    fun getLiveLLayoutType() = liveIsListLayout //因為viewModel要改這個值，所以不能回傳LiveData
 
     private val liveGridRowsCount = MutableLiveData<Int>()
 
-    fun getLiveLGridLayoutCount(): LiveData<Int> = liveGridRowsCount
+    fun getLiveLGridLayoutCount() = liveGridRowsCount  //因為viewModel「有可能」要改這個值，所以不能回傳LiveData
 
     fun fetchConfig() {
         remoteConfig.fetchAndActivate().addOnCompleteListener { task ->

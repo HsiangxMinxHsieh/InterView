@@ -48,15 +48,10 @@ class PicActivity : AppCompatActivity() {
     }
 
     private fun initObserve() {
-        // 資料觀察者
-        viewModel.getLiveDataByAPI().observe(activity, {
-            if (it.isEmpty()) {
-                viewModel.haveContent.set(false)
-            } else {
-                viewModel.haveContent.set(true)
-            }
-            viewModel.observeIsLoading.set(false)
-            mBinding.rvNews.adapter = PicAdapter().apply { list = it }
+
+        // 搜尋歷史紀錄更新 觀察者
+        viewModel.liveSearchRecord.observe(activity, {
+            mBinding.edtSearch.setAdapter((ArrayAdapter(activity, android.R.layout.select_dialog_item, it.toList())))
         })
 
         // 隱藏鍵盤 觀察者，用於ViewModel搜尋前隱藏螢幕鍵盤。
@@ -72,9 +67,20 @@ class PicActivity : AppCompatActivity() {
             }
         })
 
-        // 歷史紀錄更新 觀察者
-        viewModel.liveSearchRecord.observe(activity, {
-            mBinding.edtSearch.setAdapter((ArrayAdapter(activity, android.R.layout.select_dialog_item, it.toList())))
+        // EditText Focus 移除觀察者
+        viewModel.liveShowReleaseFocus.observe(activity, {
+            mBinding.edtSearch.clearFocus()
+        })
+
+        // API資料 觀察者
+        viewModel.getLiveDataByAPI().observe(activity, {
+            if (it.isEmpty()) {
+                viewModel.observeHaveResult.set(false)
+            } else {
+                viewModel.observeHaveResult.set(true)
+            }
+            viewModel.observeIsLoading.set(false)
+            mBinding.rvNews.adapter = PicAdapter().apply { list = it }
         })
 
         // 來自FirebaseRemote的DefaultLayout設定
@@ -83,11 +89,11 @@ class PicActivity : AppCompatActivity() {
             setGridLayoutSpan(if (it) 1 else gridRows)
         })
 
-////        // 來自FirebaseRemote的SpanCount設定 // 題目沒說要做，註解。
-//        viewModel.getLiveLGridLayoutCount().observe(activity, {
-//            Timber.e("即將更新畫面，取得的數字是=>${it}")
-//            setGridLayoutSpan(it)
-//        })
+//       // 來自FirebaseRemote的SpanCount設定 // 題目沒說要做，註解。
+//       viewModel.getLiveLGridLayoutCount().observe(activity, {
+//           Timber.e("即將更新畫面，取得的數字是=>${it}")
+//           setGridLayoutSpan(it)
+//       })
 
     }
 

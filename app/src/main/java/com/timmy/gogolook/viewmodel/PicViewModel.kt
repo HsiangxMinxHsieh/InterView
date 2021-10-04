@@ -18,7 +18,7 @@ class PicViewModel @ViewModelInject constructor(private val APIRepository: APIRe
     val observeIsLoading: ObservableField<Boolean> by lazy { ObservableField<Boolean>() }
 
     /**是否有搜尋到內容，用於顯示搜索結果是否有內容 true=>有內容，不顯示，false=>沒有內容，要顯示 */
-    val haveContent: ObservableField<Boolean> by lazy { ObservableField<Boolean>() }
+    val observeHaveResult: ObservableField<Boolean> by lazy { ObservableField<Boolean>() }
 
     /**輸入框文字，用於雙向綁定EditText物件 */
     val observeContent: ObservableField<String> by lazy { ObservableField<String>() }
@@ -32,6 +32,16 @@ class PicViewModel @ViewModelInject constructor(private val APIRepository: APIRe
     /**訊息通知，用於通知Activity顯示Toast訊息 */
     val liveShowToast: MutableLiveData<String> by lazy { MutableLiveData<String>() }
 
+    /**通知View釋放Edit的Focus */
+    val liveShowReleaseFocus: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
+
+    init {
+        getDefaultData() // 初始化時取得資料
+        liveSearchRecord.postValue(TreeSet()) // 初始化塞值(不然裡面是null)
+    }
+
+    fun getLiveDataByAPI(): LiveData<MutableList<Hit>> = APIRepository.getLiveDataByAPI()
+
     /**LayoutType，List與Grid。*/
     fun getLiveLayoutType(): LiveData<Boolean> = remoteRepository.getLiveLLayoutType()
 
@@ -41,20 +51,13 @@ class PicViewModel @ViewModelInject constructor(private val APIRepository: APIRe
     }
 
     /**bonus，可以遙控GridLayout的行數(雖然有監聽，但在View處註解)*/
-    fun getLiveLGridLayoutCount() = remoteRepository.getLiveLGridLayoutCount()
-
-    init {
-        getDefaultData() // 初始化時取得資料
-        liveSearchRecord.postValue(TreeSet()) //初始化塞值(不然裡面是null)
-    }
+    fun getLiveLGridLayoutCount(): LiveData<Int> = remoteRepository.getLiveLGridLayoutCount()
 
     private fun getDefaultData() {
         showGetAPIScreen()
         APIRepository.getDefaultDataFromAPI()
         remoteRepository.fetchConfig()
     }
-
-    fun getLiveDataByAPI(): LiveData<MutableList<Hit>> = APIRepository.getLiveDataByAPI()
 
     /**搜尋方法*/
     fun search() {
@@ -63,13 +66,15 @@ class PicViewModel @ViewModelInject constructor(private val APIRepository: APIRe
 
         // 開始執行搜尋動作
         val searchString = observeContent.get() ?: return
-        observeContent.set("") //清空搜尋文字(讓下次按下去會顯示搜尋紀錄)
-        if (searchString.isBlank()) {
+        observeContent.set("") // 清空搜尋文字(讓下次按下去會顯示搜尋紀錄)
+
+        if (searchString.isBlank()) { // 如果是空字串搜尋，提示使用者沒有輸入，使用預設資料顯示畫面。
             liveShowToast.postValue("Empty input, use the default value to display.")
+        }else{ // 不適空字串才要新增搜尋結果
+            liveSearchRecord.postValue(liveSearchRecord.value?.apply { add(searchString) })
         }
-        val list = liveSearchRecord.value
-        list?.add(searchString)
-        liveSearchRecord.postValue(list)
+
+        liveShowReleaseFocus.postValue(true)
 
         APIRepository.searchFromAPI(searchString)
     }
