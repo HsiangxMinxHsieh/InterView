@@ -34,11 +34,18 @@ class PicActivity : AppCompatActivity() {
 
         initViewModel()
 
-        initObserve()
+        initLiveDataObserve()
 
         // 設定小鍵盤的預設談起型態(進入畫面時應該隱藏)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
+    }
+
+    /**經過思索，還是覺得在onStop的時候判斷要不要移除焦點比較好。*/
+    override fun onStop() {
+        super.onStop()
+        if (viewModel.getEditContent().isBlank())
+            viewModel.passSignalToClearFocus()
     }
 
     private fun initViewModel() {
@@ -47,7 +54,7 @@ class PicActivity : AppCompatActivity() {
         mBinding.vm = viewModel
     }
 
-    private fun initObserve() {
+    private fun initLiveDataObserve() {
 
         // 搜尋歷史紀錄更新 觀察者
         viewModel.liveSearchRecord.observe(activity, {
@@ -61,25 +68,22 @@ class PicActivity : AppCompatActivity() {
 
         // Toast 觀察者
         viewModel.liveShowToast.observe(activity, {
-            if (it.isNotBlank()) {
-                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
-                viewModel.liveShowToast.value = "" // 顯示後清空。
-            }
+            Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
         })
 
         // EditText Focus 移除觀察者
-        viewModel.liveShowReleaseFocus.observe(activity, {
+        viewModel.liveClearEditFocus.observe(activity, {
             mBinding.edtSearch.clearFocus()
         })
 
         // API資料 觀察者
         viewModel.getLiveDataByAPI().observe(activity, {
             if (it.isEmpty()) {
-                viewModel.observeHaveResult.set(false)
+                viewModel.setHaveResult(false)
             } else {
-                viewModel.observeHaveResult.set(true)
+                viewModel.setHaveResult(true)
             }
-            viewModel.observeIsLoading.set(false)
+            viewModel.passSignalIsLoadingOver()
             mBinding.rvNews.adapter = PicAdapter().apply { list = it }
         })
 

@@ -17,27 +17,55 @@ class PicViewModel @ViewModelInject constructor(private val APIRepository: APIRe
     /**是否正在載入中，用於顯示加載框 true=>Loading中，false=>載入完畢 */
     val observeIsLoading: ObservableField<Boolean> by lazy { ObservableField<Boolean>() }
 
+    /**供Activity使用，確認Loading已經結束的方法。*/
+    fun passSignalIsLoadingOver() {
+        observeIsLoading.set(false)
+    }
+
     /**是否有搜尋到內容，用於顯示搜索結果是否有內容 true=>有內容，不顯示，false=>沒有內容，要顯示 */
     val observeHaveResult: ObservableField<Boolean> by lazy { ObservableField<Boolean>() }
+
+    /**供Activity使用，讓其移除EditText焦點的方法*/
+    fun setHaveResult(haveResult: Boolean) {
+        observeHaveResult.set(haveResult)
+    }
 
     /**輸入框文字，用於雙向綁定EditText物件 */
     val observeContent: ObservableField<String> by lazy { ObservableField<String>() }
 
+    /**供Activity使用，讓其移除EditText焦點的方法*/
+    fun getEditContent() = observeContent.get() ?: ""
+
     /**搜尋紀錄列表，用於儲存與更新搜尋紀錄 */
-    val liveSearchRecord: MutableLiveData<TreeSet<String>> by lazy { MutableLiveData<TreeSet<String>>() }
+    private val _liveSearchRecord: MutableLiveData<TreeSet<String>> by lazy { MutableLiveData<TreeSet<String>>() }
+    val liveSearchRecord: LiveData<TreeSet<String>> = _liveSearchRecord
 
     /**關閉軟鍵盤通知，用於通知Activity關閉軟鍵盤*/
-    val liveHideKeyBoard: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
+    private val _liveHideKeyBoard: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
+    val liveHideKeyBoard: LiveData<Boolean> = _liveHideKeyBoard
 
     /**訊息通知，用於通知Activity顯示Toast訊息 */
-    val liveShowToast: MutableLiveData<String> by lazy { MutableLiveData<String>() }
+    private val _liveShowToast: MutableLiveData<String> by lazy { MutableLiveData<String>() }
+    val liveShowToast: LiveData<String> = _liveShowToast
 
     /**通知View釋放Edit的Focus */
-    val liveShowReleaseFocus: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
+    private val _liveClearEditFocus: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
+    val liveClearEditFocus: LiveData<Boolean> = _liveClearEditFocus
+
+    /**供 Activity 切換至其他Activity前，清除EditText的Focus。*/
+    fun passSignalToClearFocus() {
+        _liveClearEditFocus.postValue(true)
+    }
 
     init {
-        getDefaultData() // 初始化時取得資料
-        liveSearchRecord.postValue(TreeSet()) // 初始化塞值(不然裡面是null)
+        getDefaultData() // 進入頁面取得資料
+        initLiveValue()
+    }
+
+    private fun initLiveValue() {
+        observeContent.set("")
+        _liveSearchRecord.postValue(TreeSet()) // 初始化塞值(不然裡面是null)
+        _liveClearEditFocus.postValue(true) // 模擬器一開始就會有focus(原因不明)
     }
 
     fun getLiveDataByAPI(): LiveData<MutableList<Hit>> = APIRepository.getLiveDataByAPI()
@@ -61,22 +89,26 @@ class PicViewModel @ViewModelInject constructor(private val APIRepository: APIRe
 
     /**搜尋方法*/
     fun search() {
-        liveHideKeyBoard.postValue(true) // 先隱藏鍵盤再執行搜尋。
+        Timber.e("進入搜尋動作！記錄點001")
+        _liveHideKeyBoard.postValue(true) // 先隱藏鍵盤再執行搜尋。
+
+        _liveClearEditFocus.postValue(true)
+        Timber.e("進入搜尋動作！記錄點002")
         showGetAPIScreen()
 
         // 開始執行搜尋動作
-        val searchString = observeContent.get() ?: return
+        val searchString = observeContent.get() ?: ""
+
         observeContent.set("") // 清空搜尋文字(讓下次按下去會顯示搜尋紀錄)
-
+        Timber.e("即將執行搜尋API！")
         if (searchString.isBlank()) { // 如果是空字串搜尋，提示使用者沒有輸入，使用預設資料顯示畫面。
-            liveShowToast.postValue("Empty input, use the default value to display.")
-        }else{ // 不適空字串才要新增搜尋結果
-            liveSearchRecord.postValue(liveSearchRecord.value?.apply { add(searchString) })
+            _liveShowToast.postValue("Empty input, use the default value to display.")
+        } else { // 不適空字串才要新增搜尋結果
+            _liveSearchRecord.postValue(_liveSearchRecord.value?.apply { add(searchString) })
+
         }
-
-        liveShowReleaseFocus.postValue(true)
-
         APIRepository.searchFromAPI(searchString)
+
     }
 
     /**設定跟API溝通中的畫面*/
