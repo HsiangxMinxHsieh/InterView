@@ -17,7 +17,7 @@ const val constantKeyIsList: String = "IsListLayoutOrGridLayout"
 
 @Module
 @InstallIn(ApplicationComponent::class)
-object DIRemoteModule {
+object RemoteModule {
 
     @Provides
     fun provideFirebaseRemoteConfig(): FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance().apply {
@@ -28,7 +28,7 @@ object DIRemoteModule {
         )
         // Set the default values locally //設定預設值
 //       setDefaultsAsync(R.xml.remote_config_defaults)
-        setDefaultsAsync(HashMap<String, Any>().apply { // 使用統一的key感覺比較好改。
+        setDefaultsAsync(HashMap<String, Any>().apply { // 使用統一的key感覺比較好改。(xml的話好像沒辦法引用程式碼中的參數？)
             this[constantKeySpanCount] = 2
             this[constantKeyIsList] = true
         })

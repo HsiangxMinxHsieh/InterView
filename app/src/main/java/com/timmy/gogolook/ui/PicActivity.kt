@@ -44,7 +44,7 @@ class PicActivity : AppCompatActivity() {
     /** 經過思索，還是覺得在onStop的時候判斷要不要移除焦點比較好。 */
     override fun onStop() {
         super.onStop()
-        if (viewModel.getEditContent().isBlank())
+        if (viewModel.xmlContent.value.isNullOrBlank())
             viewModel.passSignalToClearFocus()
     }
 

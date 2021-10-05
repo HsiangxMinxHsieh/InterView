@@ -33,10 +33,6 @@ class PicViewModel @ViewModelInject constructor(private val APIRepository: APIRe
 
     /** 輸入框文字，用於雙向綁定EditText物件 */
     val xmlContent: MutableLiveData<String> by lazy { MutableLiveData<String>() }
-//    val observeContent: LiveData<String> = _observeContent
-
-    /** 供Activity使用，讓其移除EditText焦點的方法 */
-    fun getEditContent() = xmlContent.value ?: ""
 
     /** 搜尋紀錄列表，用於儲存與更新搜尋紀錄 */
     private val _liveSearchRecord: MutableLiveData<TreeSet<String>> by lazy { MutableLiveData<TreeSet<String>>() }
