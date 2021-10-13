@@ -1,4 +1,4 @@
-package com.timmy.gogolook.ui
+package com.timmy.interview.ui
 
 import android.app.Activity
 import android.content.Context
@@ -14,9 +14,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.TransitionManager
-import com.timmy.gogolook.R
-import com.timmy.gogolook.databinding.ActivityPicBinding
-import com.timmy.gogolook.viewmodel.PicViewModel
+import com.timmy.interview.R
+import com.timmy.interview.databinding.ActivityPicBinding
+import com.timmy.interview.viewmodel.PicViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 

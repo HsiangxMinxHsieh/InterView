@@ -1,9 +1,9 @@
-package com.timmy.gogolook.viewmodel
+package com.timmy.interview.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.timmy.gogolook.di.*
+import com.timmy.interview.di.*
+import timber.log.Timber
 import javax.inject.Inject
 
 /** 跟Firebase RemoteConfig Repository(挑戰1) */

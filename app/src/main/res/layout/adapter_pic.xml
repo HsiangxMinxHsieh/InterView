@@ -6,7 +6,7 @@
     <data>
         <variable
             name="data"
-            type="com.timmy.gogolook.api.model.Hit" />
+            type="com.timmy.interview.api.model.Hit" />
 
     </data>
 

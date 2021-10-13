@@ -1,6 +1,6 @@
-package com.timmy.gogolook.api
+package com.timmy.interview.api
 
-import com.timmy.gogolook.api.model.PicModel
+import com.timmy.interview.api.model.PicModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 

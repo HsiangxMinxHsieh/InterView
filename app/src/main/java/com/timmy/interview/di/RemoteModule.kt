@@ -1,8 +1,7 @@
-package com.timmy.gogolook.di
+package com.timmy.interview.di
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
-import com.timmy.gogolook.R
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

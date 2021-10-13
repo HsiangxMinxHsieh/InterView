@@ -1,4 +1,4 @@
-package com.timmy.gogolook.application
+package com.timmy.interview.application
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

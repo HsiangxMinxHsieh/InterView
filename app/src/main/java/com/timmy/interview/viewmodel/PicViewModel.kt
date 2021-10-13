@@ -1,4 +1,4 @@
-package com.timmy.gogolook.viewmodel
+package com.timmy.interview.viewmodel
 
 import android.view.KeyEvent
 import android.widget.*
@@ -7,8 +7,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.timmy.gogolook.api.model.Hit
-import timber.log.Timber
+import com.timmy.interview.api.model.Hit
 import java.util.*
 
 class PicViewModel @ViewModelInject constructor(private val APIRepository: APIRepository, private val remoteRepository: RemoteRepository) : ViewModel() {
@@ -95,6 +94,7 @@ class PicViewModel @ViewModelInject constructor(private val APIRepository: APIRe
 
         _liveClearEditFocus.postValue(true)
         showGetAPIScreen()
+
 
         // 開始執行搜尋動作
         val searchString = xmlContent.value ?: ""

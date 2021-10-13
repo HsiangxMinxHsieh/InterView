@@ -1,4 +1,4 @@
-package com.timmy.gogolook.api.model
+package com.timmy.interview.api.model
 import com.google.gson.annotations.SerializedName
 
 

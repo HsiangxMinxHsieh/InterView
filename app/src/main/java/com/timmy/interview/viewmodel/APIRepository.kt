@@ -1,9 +1,9 @@
-package com.timmy.gogolook.viewmodel
+package com.timmy.interview.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.timmy.gogolook.api.ApiService
-import com.timmy.gogolook.api.model.Hit
+import com.timmy.interview.api.ApiService
+import com.timmy.interview.api.model.Hit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package com.timmy.gogolook
+package com.timmy.interview
 
 import org.junit.Test
 

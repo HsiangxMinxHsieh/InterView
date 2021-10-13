@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "382808371897",
-    "project_id": "gogolook-bb9e5",
-    "storage_bucket": "gogolook-bb9e5.appspot.com"
+    "project_number": "1013175990009",
+    "project_id": "interviewexam-d38f6",
+    "storage_bucket": "interviewexam-d38f6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:382808371897:android:2e0f742e9acc8ec5736168",
+        "mobilesdk_app_id": "1:1013175990009:android:8684e9a6ee4bbb95d91428",
         "android_client_info": {
-          "package_name": "com.timmy.gogolook"
+          "package_name": "com.timmy.interview"
         }
       },
       "oauth_client": [
         {
-          "client_id": "382808371897-nrob9oo4gdemv35hi0c25oj1f2ud5sbq.apps.googleusercontent.com",
+          "client_id": "1013175990009-u7f3ooitp4adnq3kkqp567do0khpivtm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCyAYF8_OKQLIydof8l--5aXzQp0LFPD4Y"
+          "current_key": "AIzaSyCj5IrB_fs_Hvifo2v0q5QWgpBdCuJExp8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "382808371897-nrob9oo4gdemv35hi0c25oj1f2ud5sbq.apps.googleusercontent.com",
+              "client_id": "1013175990009-u7f3ooitp4adnq3kkqp567do0khpivtm.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,4 +1,4 @@
-package com.timmy.gogolook
+package com.timmy.interview
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         //Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.timmy.gogolook", appContext.packageName)
+        assertEquals("com.timmy.interview", appContext.packageName)
     }
 }

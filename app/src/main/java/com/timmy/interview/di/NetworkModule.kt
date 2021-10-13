@@ -1,4 +1,4 @@
-package com.timmy.gogolook.di
+package com.timmy.interview.di
 
 import dagger.Module
 import dagger.Provides
